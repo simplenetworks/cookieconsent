@@ -5,7 +5,7 @@ var cc = initCookieConsent();
 cc.run({
     current_lang: 'en',
     autoclear_cookies: true,                    // default: false
-    theme_css: '../src/cookieconsent.css',
+    theme_css: '../src/css/cookieconsent.css',
     cookie_name: 'cc_cookie_demo2',             // default: 'cc_cookie'
     cookie_expiration: 365,                     // default: 182
     page_scripts: true,                         // default: false

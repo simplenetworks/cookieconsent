@@ -220,11 +220,12 @@
 
 /** fix https://github.com/orestbida/cookieconsent/issues/94 **/
 #cc_div #cm {
-    display: block!important;
+    padding: 1.5rem !important;
+    display: block !important;
 }
 
 #c-ttl{
-    margin-bottom: .7em;
+    margin-bottom: 1rem;
     font-size: 1.05em;
 }
 
@@ -306,8 +307,16 @@ CookieConsent settings modal
     outline: none;
 }
 
+#s-bl::-webkit-scrollbar-track,
+#s-bl::-webkit-scrollbar-thumb {
+    display: none !important;
+}
+
 #s-bl .title{
     margin-top: 1.4em;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-bottom: 1rem !important;
 }
 
 #s-bl .title:first-child{
