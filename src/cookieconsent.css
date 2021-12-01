@@ -127,7 +127,7 @@
     transition: visibility .25s linear, opacity .25s ease, transform .25s ease!important;
 }
 
-.c--anim .c-bn{
+.c--anim .c-bn {
     transition: background-color .25s ease!important;
 }
 
@@ -257,7 +257,14 @@
 }
 
 #cm .c-bn{
-    width: 48.5%;
+    width: 100%;
+}
+
+#c-bns {
+    display: grid;
+    grid-gap: .75rem;
+    grid-template-columns: 1fr 1fr;
+    height: auto;
 }
 
 #c-bns button + button,

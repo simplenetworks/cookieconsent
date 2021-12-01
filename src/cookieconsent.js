@@ -276,23 +276,23 @@
             var innerText = (typeof html_dom.textContent === 'string' ? 'textContent' : 'innerText');
 
             _conf_params = conf_params;
-            _createConsentModal = function(conf_params){
+            _createConsentModal = (conf_params) => {
 
-                if(conf_params['force_consent'] === true){
+                if (conf_params['force_consent'] === true) {
                     _addClass(html_dom, 'force--consent');
                 }
 
                 var description = conf_params.languages[lang]['consent_modal']['description'];
 
-                if(revision_enabled){
-                    if(!valid_revision){
+                if (revision_enabled) {
+                    if (!valid_revision) {
                         description = description.replace("{{revision_message}}", revision_message || conf_params.languages[lang]['consent_modal']['revision_message'] || "");
-                    }else{
+                    } else {
                         description = description.replace("{{revision_message}}", "");
                     }
                 }
 
-                if(consent_modal){
+                if (consent_modal) {
                     consent_text.innerHTML = description;
                     return;
                 }
@@ -303,9 +303,12 @@
                 var consent_title = _createNode('div');
                 consent_text = _createNode('div');
                 var consent_buttons = _createNode('div');
-                var consent_primary_btn = _createNode('button');
-                var consent_secondary_btn = _createNode('button');
+                var consent_accept_all_btn = _createNode('button');
+                var consent_reject_all_btn = _createNode('button');
+                var consent_settings_btn = _createNode('button');
+                var consent_close_btn = _createNode('button');
                 var overlay = _createNode('div');
+                var consent_modal_close_btn = _createNode('button');
 
                 consent_modal.id = 'cm';
                 consent_modal_inner.id = 'c-inr';
@@ -313,11 +316,15 @@
                 consent_title.id = 'c-ttl';
                 consent_text.id = 'c-txt';
                 consent_buttons.id = "c-bns";
-                consent_primary_btn.id = 'c-p-bn';
-                consent_secondary_btn.id = 'c-s-bn';
+                consent_accept_all_btn.id = 'c-p-bn';
+                consent_reject_all_btn.id = 'c-s-bn';
+                consent_settings_btn.id = 'c-settings-bn';
+                consent_close_btn.id = 'c-close-bn';
                 overlay.id = 'cm-ov';
-                consent_primary_btn.className =  "c-bn";
-                consent_secondary_btn.className = "c-bn c_link";
+                consent_accept_all_btn.className =  "c-bn";
+                consent_reject_all_btn.className = "c-bn c_link";
+                consent_settings_btn.className = 'c-bn c_link';
+                consent_close_btn.className = 'c-bn c_link';
 
                 consent_title.setAttribute('role', 'heading');
                 consent_title.setAttribute('aria-level', '2');
@@ -338,36 +345,47 @@
 
                 consent_text.insertAdjacentHTML('beforeend', description);
 
-                consent_primary_btn[innerText] = conf_params.languages[lang]['consent_modal']['primary_btn']['text'];
-                consent_secondary_btn[innerText] = conf_params.languages[lang]['consent_modal']['secondary_btn']['text'];
+                consent_accept_all_btn[innerText] = conf_params.languages[lang]['consent_modal']['accept_all_btn']['text'];
+                consent_reject_all_btn[innerText] = conf_params.languages[lang]['consent_modal']['reject_all_btn']['text'];
+                consent_settings_btn[innerText] = conf_params.languages[lang]['consent_modal']['settings_btn']['text'];
+                consent_close_btn[innerText] = conf_params.languages[lang]['consent_modal']['close_btn']['text'];
 
                 var accept_type;   // accept current selection
 
-                if(conf_params.languages[lang]['consent_modal']['primary_btn']['role'] === 'accept_all'){
+                if(conf_params.languages[lang]['consent_modal']['accept_all_btn']['role'] === 'accept_all'){
                     accept_type = 'all';    // accept all
                 }
 
-                _addEvent(consent_primary_btn, "click", function(){
+                _addEvent(consent_accept_all_btn, "click", function(){
                     _cookieconsent.hide();
-                    _log("CookieConsent [ACCEPT]: cookie_consent was accepted!");
                     _cookieconsent.accept(accept_type);
+                    _log("CookieConsent [ACCEPT]: cookie_consent was accepted!");
                 });
 
-                if(conf_params.languages[lang]['consent_modal']['secondary_btn']['role'] === 'accept_necessary'){
-                    _addEvent(consent_secondary_btn, 'click', function(){
-                        _cookieconsent.hide();
-                        _cookieconsent.accept([]); // accept necessary only
-                    });
-                }else{
-                    _addEvent(consent_secondary_btn, 'click', function(){
-                        _cookieconsent.showSettings(0);
-                    });
-                }
+                _addEvent(consent_reject_all_btn, "click", function(){
+                    _cookieconsent.hide();
+                    _cookieconsent.accept([]); // accept necessary only
+                    _log("CookieConsent [REJECT]: Only necessaries cookies were accepted!");
+                });
+
+                _addEvent(consent_settings_btn, 'click', function(){
+                    _cookieconsent.showSettings(0);
+                    _log("CookieConsent [SETTINGS]: Show Settings!");
+                });
+
+                _addEvent(consent_close_btn, 'click', function(){
+                    _cookieconsent.hideSettings();
+                    _cookieconsent.hide();
+                    _cookieconsent.accept();
+                    _log("CookieConsent [DEFAULT]: Save default settings!");
+                });
 
                 consent_modal_inner_inner.appendChild(consent_title);
                 consent_modal_inner_inner.appendChild(consent_text);
-                consent_buttons.appendChild(consent_primary_btn);
-                consent_buttons.appendChild(consent_secondary_btn);
+                consent_buttons.appendChild(consent_accept_all_btn);
+                consent_buttons.appendChild(consent_reject_all_btn);
+                consent_buttons.appendChild(consent_settings_btn);
+                consent_buttons.appendChild(consent_close_btn);
                 consent_modal_inner.appendChild(consent_modal_inner_inner);
                 consent_modal_inner.appendChild(consent_buttons);
                 consent_modal.appendChild(consent_modal_inner);
@@ -377,6 +395,10 @@
                 all_modals_container.appendChild(overlay);
 
                 consent_modal_exists = true;
+
+                _addEvent(consent_modal_close_btn, 'click', () => {
+                    _cookieconsent.hideSettings(0);
+                });
             }
 
             // Create consent modal

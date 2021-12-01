@@ -76,14 +76,22 @@ cc.run({
         'en': {
             consent_modal: {
                 title: cookie + ' We use cookies!',
-                description: 'Hi, this website uses essential cookies to ensure its proper operation and tracking cookies to understand how you interact with it. The latter will be set only after consent. <button type="button" data-cc="c-settings" class="cc-link">Let me choose</button>',
-                primary_btn: {
+                description: 'Hi, this website uses essential cookies to ensure its proper operation and tracking cookies to understand how you interact with it. The latter will be set only after consent. <button type="button" data-cc="c-settings" class="cc-link">Let me choose</button><br><br>Closing this modal default settings will be saved.',
+                accept_all_btn: {
                     text: 'Accept all',
                     role: 'accept_all'              // 'accept_selected' or 'accept_all'
                 },
-                secondary_btn: {
+                reject_all_btn: {
                     text: 'Reject all',
                     role: 'accept_necessary'        // 'settings' or 'accept_necessary'
+                },
+                settings_btn: {
+                    text: 'Preferences',
+                    role: 'settings'       //'settings' or 'accept_necessary'
+                },
+                close_btn: {
+                    text: 'Close',
+                    // role: 'accept_necessary' 
                 }
             },
             settings_modal: {
@@ -142,8 +150,8 @@ cc.run({
                             readonly: false
                         }
                     }, {
-                        title: 'More information',
-                        description: 'For any queries in relation to my policy on cookies and your choices, please <a class="cc-link" href="https://orestbida.com/contact">contact me</a>.',
+                        title: 'Privacy Policy',
+                        description: 'For any further question, please read our <a class="cc-link" href="#">privacy policy</a>.',
                     }
                 ]
             }
