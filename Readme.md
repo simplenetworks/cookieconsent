@@ -1,4 +1,5 @@
 <h1 align="center" style="text-align: center;">Cookie Consent</h1>
+<h4 align="center" style="text-align: center;">Forked by SimpleNetworks</h4>
 <div align="center" style="text-align: center;">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
