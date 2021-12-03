@@ -1,16 +1,17 @@
 /*!
- * CookieConsent v2.7.0-rc3
- * https://www.github.com/orestbida/cookieconsent
- * Author Orest Bida
+ * CookieConsent v1.0.0
+ * https://github.com/simplenetworks/cookieconsent
+ * Author SimpleNetworks -> Thanks to Orest Bida
  * Released under the MIT License
  */
-(function() {
+(() => {
+
     'use strict';
     /**
      * @param {HTMLElement} [root] - [optional] element where the cookieconsent will be appended
      * @returns {Object} cookieconsent object with API
      */
-    var CookieConsent = function(root) {
+    const CookieConsent = (root) => {
         /**
          * CHANGE THIS FLAG FALSE TO DISABLE console.log()
          */
@@ -19,7 +20,7 @@
             'current_lang': 'en',
             'auto_language': null,
             'autorun': true, // run as soon as loaded
-            'cookie_name': 'cc_cookie',
+            'cookie_name': 'cookie_log',
             'cookie_expiration': 182, // default: 6 months (in days)
             'cookie_domain': window.location.hostname, // default: current domain
             'cookie_path': '/',
@@ -88,7 +89,7 @@
          * Update config settings
          * @param {Object} conf_params
          */
-        var _setConfig = function(conf_params) {
+        var _setConfig = (conf_params) => {
             _log("CookieConsent [CONFIG]: received_config_settings ", conf_params);
             if (typeof conf_params['cookie_expiration'] === "number")
                 _config.cookie_expiration = conf_params['cookie_expiration'];
@@ -131,11 +132,11 @@
          * Search for all occurrences in the current page and add an onClick listener :
          * when clicked => open settings modal
          */
-        var _addCookieSettingsButtonListener = function() {
+        var _addCookieSettingsButtonListener = () => {
             var all_links = document.querySelectorAll('a[data-cc="c-settings"], button[data-cc="c-settings"]');
             for (var x = 0; x < all_links.length; x++) {
                 all_links[x].setAttribute('aria-haspopup', 'dialog');
-                _addEvent(all_links[x], 'click', function(event) {
+                _addEvent(all_links[x], 'click', (event) => {
                     _cookieconsent.showSettings(0);
                     event.preventDefault ? event.preventDefault() : event.returnValue = false;
                 });
@@ -147,7 +148,7 @@
          * @param {Object} all_languages - all defined languages
          * @returns {string} validated language
          */
-        var _getValidatedLanguage = function(lang, all_languages) {
+        var _getValidatedLanguage = (lang, all_languages) => {
             if (Object.prototype.hasOwnProperty.call(all_languages, lang)) {
                 return lang;
             } else if (_getKeys(all_languages).length > 0) {
@@ -162,7 +163,7 @@
          * Save reference to first and last focusable elements inside each modal
          * to prevent losing focus while navigating with TAB
          */
-        var _getModalFocusableData = function() {
+        var _getModalFocusableData = () => {
             /**
              * Note: any of the below focusable elements, which has the attribute tabindex="-1" AND is either
              * the first or last element of the modal, won't receive focus during "open/close" modal
@@ -218,7 +219,7 @@
          * @param {boolean} never_accepted - used to know whether to create both modals or not
          * @param {Object} conf_params - user configuration parameters
          */
-        var _createCookieConsentHTML = function(never_accepted, conf_params) {
+        var _createCookieConsentHTML = (never_accepted, conf_params) => {
             // Create main container which holds both consent modal & settings modal
             main_container = _createNode('div');
             main_container.id = 'cc--main';
@@ -842,7 +843,7 @@
          * Trap focus inside modal and focus the first
          * focusable element of current active modal
          */
-        var _handleFocusTrap = function() {
+        var _handleFocusTrap = () => {
             var tabbedOutsideDiv = false;
             var tabbedInsideModal = false;
             _addEvent(document, 'keydown', function(e) {
@@ -917,7 +918,7 @@
          * Manage each modal's layout
          * @param {Object} gui_options
          */
-        var _guiManager = function(gui_options, only_consent_modal) {
+        var _guiManager = (gui_options, only_consent_modal) => {
             // If gui_options is not object => exit
             if (typeof gui_options !== 'object') return;
             var consent_modal_options = gui_options['consent_modal'];
@@ -976,7 +977,7 @@
          * @param {string} cookie_category
          * @returns {boolean}
          */
-        _cookieconsent.allowedCategory = function(cookie_category) {
+        _cookieconsent.allowedCategory = (cookie_category) => {
             return _inArray(
                 JSON.parse(_getCookie(_config.cookie_name, 'one', true) || '{}')['level'] || [],
                 cookie_category
@@ -986,7 +987,7 @@
          * Check if cookieconsent is already attached to dom
          * If not, create one, configure it and attach it to the body
          */
-        _cookieconsent.run = function(conf_params) {
+        _cookieconsent.run = (conf_params) => {
             if (!document.getElementById('cc_div')) {
                 // configure all parameters
                 _setConfig(conf_params);
@@ -1046,8 +1047,8 @@
          * Show settings modal (with optional delay)
          * @param {number} delay
          */
-        _cookieconsent.showSettings = function(delay) {
-            setTimeout(function() {
+        _cookieconsent.showSettings = (delay) => {
+            setTimeout(() => {
                 _addClass(html_dom, "show--settings");
                 settings_container.setAttribute('aria-hidden', 'false');
                 settings_modal_visible = true;
@@ -1076,7 +1077,7 @@
          * This function handles the loading/activation logic of the already
          * existing scripts based on the current accepted cookie categories
          */
-        var _manageExistingScripts = function() {
+        var _manageExistingScripts = () => {
             if (!_config.page_scripts) return;
             // get all the scripts with "cookie-category" attribute
             var scripts = document.querySelectorAll('script[' + _config.script_selector + ']');
@@ -1161,7 +1162,7 @@
          * @param {string} [mode]
          * @returns {boolean}
          */
-        var _setCookieData = function(new_data, mode) {
+        var _setCookieData = (new_data, mode) => {
             var set = false;
             /**
              * If mode is 'update':
@@ -1198,7 +1199,7 @@
          * @param {boolean} [prompt_consent]
          * @returns {boolean}
          */
-        var _setRevision = function(new_revision, prompt_consent, message) {
+        var _setRevision = (new_revision, prompt_consent, message) => {
             // If plugin has been initialized and new revision is valid
             if (
                 main_container &&
@@ -1229,7 +1230,7 @@
          * @param {object} data
          * @returns {boolean}
          */
-        _cookieconsent.set = function(field, data) {
+        _cookieconsent.set = (field, data) => {
             switch (field) {
                 case 'data':
                     return _setCookieData(data['value'], data['mode']);
@@ -1245,7 +1246,7 @@
          * @param {string} [cookie_name]
          * @returns {any}
          */
-        _cookieconsent.get = function(field, cookie_name) {
+        _cookieconsent.get = (field, cookie_name) => {
             var cookie = JSON.parse(_getCookie(cookie_name || _config.cookie_name, 'one', true) || "{}");
             return cookie[field];
         }
@@ -1253,7 +1254,7 @@
          * Read current configuration value
          * @returns {any}
          */
-        _cookieconsent.getConfig = function(field) {
+        _cookieconsent.getConfig = (field) => {
             return _config[field];
         }
         /**
@@ -1266,7 +1267,7 @@
          * @param {scriptLoaded} callback
          * @param {string[]} attrs
          */
-        _cookieconsent.loadScript = function(src, callback, attrs) {
+        _cookieconsent.loadScript = (src, callback, attrs) => {
             var function_defined = typeof callback === 'function';
             // Load script only if not already loaded
             if (!document.querySelector('script[src="' + src + '"]')) {
@@ -1311,16 +1312,16 @@
          * Show cookie consent modal (with delay parameter)
          * @param {number} delay
          */
-        _cookieconsent.show = function(delay) {
+        _cookieconsent.show = (delay) => {
             if (consent_modal_exists) {
-                setTimeout(function() {
+                setTimeout(() => {
                     _addClass(html_dom, "show--consent");
                     /**
                      * Update attributes/internal statuses
                      */
                     consent_modal.setAttribute('aria-hidden', 'false');
                     consent_modal_visible = true;
-                    setTimeout(function() {
+                    setTimeout(() => {
                         last_elem_before_modal = document.activeElement;
                         current_modal_focusable = consent_modal_focusable;
                     }, 200);
@@ -1331,12 +1332,12 @@
         /**
          * Hide consent modal
          */
-        _cookieconsent.hide = function() {
+        _cookieconsent.hide = () => {
             if (consent_modal_exists) {
                 _removeClass(html_dom, "show--consent");
                 consent_modal.setAttribute('aria-hidden', 'true');
                 consent_modal_visible = false;
-                setTimeout(function() {
+                setTimeout(() => {
                     //restore focus to the last page element which had focus before modal opening
                     last_elem_before_modal.focus();
                     current_modal_focusable = null;
@@ -1347,11 +1348,11 @@
         /**
          * Hide settings modal
          */
-        _cookieconsent.hideSettings = function() {
+        _cookieconsent.hideSettings = () => {
             _removeClass(html_dom, "show--settings");
             settings_modal_visible = false;
             settings_container.setAttribute('aria-hidden', 'true');
-            setTimeout(function() {
+            setTimeout(() => {
                 /**
                  * If consent modal is visible, focus him (instead of page document)
                  */
@@ -1374,7 +1375,7 @@
          * @param {string[]|string} _categories - Categories to accept
          * @param {string[]} [_exclusions] - Excluded categories [optional]
          */
-        _cookieconsent.accept = function(_categories, _exclusions) {
+        _cookieconsent.accept = (_categories, _exclusions) => {
             var categories = _categories || undefined;
             var exclusions = _exclusions || [];
             var to_accept = [];
@@ -1382,7 +1383,7 @@
              * Get all accepted categories
              * @returns {string[]}
              */
-            var _getCurrentPreferences = function() {
+            var _getCurrentPreferences = () => {
                 var toggles = document.querySelectorAll('.c-tgl') || [];
                 var states = [];
                 for (var i = 0; i < toggles.length; i++) {
@@ -1437,7 +1438,7 @@
          * @param {string} [_path] - optional
          * @param {string} [_domain] - optional
          */
-        _cookieconsent.eraseCookies = function(_cookies, _path, _domain) {
+        _cookieconsent.eraseCookies = (_cookies, _path, _domain) => {
             var cookies = [];
             var domains = _domain ?
                 [_domain, "." + _domain] :
@@ -1456,7 +1457,7 @@
          * @param {string} name
          * @param {string} value
          */
-        var _setCookie = function(name, value) {
+        var _setCookie = (name, value) => {
             value = _config.use_rfc_cookie ? encodeURIComponent(value) : value;
             var date = new Date();
             date.setTime(date.getTime() + (1000 * (_config.cookie_expiration * 24 * 60 * 60)));
@@ -1482,7 +1483,7 @@
          * @param {boolean} get_value - set to true to obtain its value
          * @returns {string|string[]}
          */
-        var _getCookie = function(name, filter, get_value) {
+        var _getCookie = (name, filter, get_value) => {
             var found;
             if (filter === 'one') {
                 found = document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)");
@@ -1516,7 +1517,7 @@
          * @param {string} [custom_path] - optional
          * @param {string[]} domains - example: ['domain.com', '.domain.com']
          */
-        var _eraseCookies = function(cookies, custom_path, domains) {
+        var _eraseCookies = (cookies, custom_path, domains) => {
             var path = custom_path ? custom_path : '/';
             var expires = 'Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             for (var i = 0; i < cookies.length; i++) {
@@ -1532,7 +1533,7 @@
          * @param {string} cookie_name
          * @returns {boolean}
          */
-        _cookieconsent.validCookie = function(cookie_name) {
+        _cookieconsent.validCookie = (cookie_name) => {
             return _getCookie(cookie_name, 'one', true) !== "";
         }
         /**
@@ -1546,7 +1547,7 @@
          * @param {eventFired} fn
          * @param {boolean} passive
          */
-        var _addEvent = function(elem, event, fn, _passive) {
+        var _addEvent = (elem, event, fn, _passive) => {
             var passive = _passive === true;
             if (elem.addEventListener) {
                 passive ? elem.addEventListener(event, fn, {
@@ -1564,7 +1565,7 @@
          * Get all prop. keys defined inside object
          * @param {Object} obj
          */
-        var _getKeys = function(obj) {
+        var _getKeys = (obj) => {
             if (typeof obj === "object") {
                 var keys = [],
                     i = 0;
@@ -1577,7 +1578,7 @@
          * @param {HTMLElement} elem
          * @param {string} classname
          */
-        var _addClass = function(elem, classname) {
+        var _addClass = (elem, classname) => {
             if (elem.classList)
                 elem.classList.add(classname)
             else {
@@ -1590,7 +1591,7 @@
          * @param {HTMLElement} elem
          * @param {string} classname
          */
-        var _removeClass = function(el, className) {
+        var _removeClass = (el, className) => {
             el.classList ? el.classList.remove(className) : el.className = el.className.replace(new RegExp('(\\s|^)' + className + '(\\s|$)'), ' ');
         }
         /**
@@ -1598,7 +1599,7 @@
          * @param {HTMLElement} el
          * @param {string} className
          */
-        var _hasClass = function(el, className) {
+        var _hasClass = (el, className) => {
             if (el.classList) {
                 return el.classList.contains(className);
             }
@@ -1606,6 +1607,7 @@
         }
         return _cookieconsent;
     };
+
     var init = 'initCookieConsent';
     /**
      * Make CookieConsent object accessible globally
@@ -1613,4 +1615,5 @@
     if (typeof window[init] !== 'function') {
         window[init] = CookieConsent
     }
+
 })();
