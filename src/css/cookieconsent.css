@@ -1284,15 +1284,7 @@ html.force--consent.show--consent body{
     }
 
     #s-cnt #s-rall-bn{
-        margin-left: 0;
-    }
-
-    #s-bns button:not(:first-child) {
-        margin-top: 1rem;
-    }
-
-    #s-bns button:last-child {
-        margin-bottom: 1rem;
+        margin: .5rem 0;
     }
 
     #c-bns button + button,
