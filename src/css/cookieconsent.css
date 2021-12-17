@@ -1,3 +1,8 @@
+html,
+body {
+    overflow-x: hidden;
+}
+
 /** Light color-scheme **/
 :root{
     --cc-bg: #fff;
