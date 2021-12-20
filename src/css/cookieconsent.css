@@ -319,6 +319,8 @@ CookieConsent settings modal
 
 #s-bl .title{
     margin-top: 1.4em;
+    padding: 0 !important;
+    height: auto !important;
     max-width: 100% !important;
     width: 100% !important;
     margin-bottom: 1rem !important;
