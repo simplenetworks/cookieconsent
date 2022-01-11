@@ -2,10 +2,10 @@
 const cc = initCookieConsent();
 
 // CONSTANTS
-const base64 = ""
-const logo = `<img width="100" src="${base64}"`;
+const base64 = "";
+const logo = `<img width="100" src="${base64}" />`;
 const cookie = '🍪';
-const privacy_URL = ''
+const privacy_URL = '';
 
 // RUN
 cc.run({
